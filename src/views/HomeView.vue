@@ -4,16 +4,17 @@
       <div class="sm:flex-auto">
         <h1 class="text-base font-semibold text-gray-900">Users</h1>
         <p class="mt-2 text-sm text-gray-700">
-          A list of all the users in your account including their name, title,
-          email and role.
+          A list of all the users in your account including their job title,
+          email, description and location.
         </p>
       </div>
       <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
         <button
+          @click="handleJob"
           type="button"
           class="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
-          Add user
+          Add job
         </button>
       </div>
     </div>
@@ -33,7 +34,7 @@
                   scope="col"
                   class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                 >
-                Email
+                  Email
                 </th>
                 <th
                   scope="col"
@@ -45,7 +46,7 @@
                   scope="col"
                   class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                 >
-                  Role
+                  location
                 </th>
                 <th
                   scope="col"
@@ -69,7 +70,7 @@
                   {{ truncateText(job.description, 3) }}
                 </td>
                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                  {{ job.role }}
+                  {{ job.location }}
                 </td>
                 <td
                   class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6 lg:pr-8"
@@ -88,6 +89,9 @@
 </template>
 
 <script setup>
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 const jobs = [
   {
     id: 1,
@@ -137,55 +141,11 @@ const jobs = [
       contactPhone: "555-555-5555",
     },
   },
-  {
-    id: 4,
-    title: "Vue Front-End Developer",
-    type: "Part-Time",
-    description:
-      "Join our team as a Part-Time Front-End Developer in beautiful Pheonix, AZ. We are looking for a self-motivated individual with a passion for creating engaging user experiences. This position offers flexible hours and the opportunity to work remotely.",
-    location: "Pheonix, AZ",
-    salary: "$60K - $70K",
-    company: {
-      name: "Alpha Elite",
-      description:
-        "Alpha Elite is a dynamic startup specializing in digital marketing and web development. We are committed to fostering a diverse and inclusive workplace where creativity and innovation thrive.",
-      contactEmail: "contact@adipisicingelit.com",
-      contactPhone: "555-555-5555",
-    },
-  },
-  {
-    id: 5,
-    title: "Full Stack Vue Developer",
-    type: "Full-Time",
-    description:
-      "Exciting opportunity for a Full-Time Front-End Developer in bustling Atlanta, GA. We are seeking a talented individual with a passion for building elegant and scalable web applications. Join our team and make an impact!",
-    location: "Atlanta, GA",
-    salary: "$90K - $100K",
-    company: {
-      name: "Browning Technologies",
-      description:
-        "Browning Technologies is a rapidly growing technology company specializing in e-commerce solutions. We offer a dynamic and collaborative work environment where employees are encouraged to think creatively and innovate.",
-      contactEmail: "contact@consecteturadipisicing.com",
-      contactPhone: "555-555-5555",
-    },
-  },
-  {
-    id: 6,
-    title: "Vue Native Developer",
-    type: "Full-Time",
-    description:
-      "Join our team as a Front-End Developer in beautiful Portland, OR. We are looking for a skilled and enthusiastic individual to help us create innovative web solutions. Competitive salary and great benefits package available.",
-    location: "Portland, OR",
-    salary: "$100K - $110K",
-    company: {
-      name: "Port Solutions INC",
-      description:
-        "Port Solutions is a leading technology company specializing in software development and digital marketing. We are committed to providing our clients with cutting-edge solutions and our employees with a supportive and rewarding work environment.",
-      contactEmail: "contact@ipsumlorem.com",
-      contactPhone: "555-555-5555",
-    },
-  },
 ];
+
+const handleJob = () => {
+  router.push({ name: "add-user" });
+};
 
 const truncateText = (text, wordLimit) => {
   if (!text) return "";
