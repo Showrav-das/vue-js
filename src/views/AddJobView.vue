@@ -10,8 +10,11 @@
 <script setup>
 import JobAddForm from "@/components/JobAddForm.vue";
 import { useRouter } from "vue-router";
-
+const router = useRouter();
 const handleJobAdded = (newJobPost) => {
-  console.log(newJobPost);
+  router.push({
+    name: "home",
+    query: { newJobPost: JSON.stringify(newJobPost) },
+  });
 };
 </script>

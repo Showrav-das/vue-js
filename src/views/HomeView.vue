@@ -2,7 +2,7 @@
   <div class="px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto mt-12">
     <div class="sm:flex sm:items-center">
       <div class="sm:flex-auto">
-        <h1 class="text-base font-semibold text-gray-900">Users</h1>
+        <h1 class="text-base font-semibold text-gray-900">Job Posts</h1>
         <p class="mt-2 text-sm text-gray-700">
           A list of all the users in your account including their job title,
           email, description and location.
@@ -64,7 +64,7 @@
                   {{ job.title }}
                 </td>
                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                  {{ job.company.contactEmail }}
+                  {{ job.email }}
                 </td>
                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                   {{ truncateText(job.description, 3) }}
@@ -89,59 +89,39 @@
 </template>
 
 <script setup>
-import { useRouter } from "vue-router";
-
+import { watch, ref } from "vue";
+import { useRoute, useRouter } from "vue-router";
+const route = useRoute();
 const router = useRouter();
-const jobs = [
+const jobs = ref([
   {
     id: 1,
     title: "Senior Vue Developer",
     type: "Full-Time",
+    email: "abc@gmail.com",
     description:
       "We are seeking a talented Front-End Developer to join our team in Boston, MA. The ideal candidate will have strong skills in HTML, CSS, and JavaScript, with experience working with modern JavaScript frameworks such as Vue or Angular.",
     location: "Boston, MA",
-    salary: "$70K - $80K",
-    company: {
-      name: "NewTek Solutions",
-      description:
-        "NewTek Solutions is a leading technology company specializing in web development and digital solutions. We pride ourselves on delivering high-quality products and services to our clients while fostering a collaborative and innovative work environment.",
-      contactEmail: "contact@teksolutions.com",
-      contactPhone: "555-555-5555",
-    },
   },
   {
     id: 2,
     title: "Front-End Engineer (Vue)",
     type: "Full-Time",
+    email: "abc@gmail.com",
     description:
       "Join our team as a Front-End Developer in sunny Miami, FL. We are looking for a motivated individual with a passion for crafting beautiful and responsive web applications. Experience with UI/UX design principles and a strong attention to detail are highly desirable.",
     location: "Miami, FL",
-    salary: "$70K - $80K",
-    company: {
-      name: "Veneer Solutions",
-      description:
-        "Veneer Solutions is a creative agency specializing in digital design and development. Our team is dedicated to pushing the boundaries of creativity and innovation to deliver exceptional results for our clients.",
-      contactEmail: "contact@loremipsum.com",
-      contactPhone: "555-555-5555",
-    },
   },
   {
     id: 3,
     title: "Vue.js Developer",
     type: "Full-Time",
+    email: "abc@gmail.com",
     description:
       "Are you passionate about front-end development? Join our team in vibrant Brooklyn, NY, and work on exciting projects that make a difference. We offer competitive compensation and a collaborative work environment where your ideas are valued.",
     location: "Brooklyn, NY",
-    salary: "$70K - $80K",
-    company: {
-      name: "Dolor Cloud",
-      description:
-        "Dolor Cloud is a leading technology company specializing in digital solutions for businesses of all sizes. With a focus on innovation and customer satisfaction, we are committed to delivering cutting-edge products and services.",
-      contactEmail: "contact@dolorsitamet.com",
-      contactPhone: "555-555-5555",
-    },
   },
-];
+]);
 
 const handleJob = () => {
   router.push({ name: "add-user" });
@@ -154,4 +134,24 @@ const truncateText = (text, wordLimit) => {
     ? words.slice(0, wordLimit).join(" ") + "..."
     : text;
 };
+
+watch(
+  () => route.query,
+  (newQuery) => {
+    if (
+      newQuery.title &&
+      newQuery.email &&
+      newQuery.description &&
+      newQuery.location
+    ) {
+      jobs.value.push({
+        title: newQuery.title,
+        email: newQuery.email,
+        description: newQuery.description,
+        location: newQuery.location,
+      });
+    }
+  },
+  { immediate: true }
+);
 </script>
